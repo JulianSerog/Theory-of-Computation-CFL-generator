@@ -102,10 +102,69 @@ public class randCFL
 			//System.out.println(line);
 		}//while
 
+		//exit the program if there is no start state
+		if (start.equals("")) 
+		{
+			System.out.println("There is no start state, exiting the program...");
+			System.exit(0);	
+		}
+
 		//TODO: remove this -- it's for testing purposes
+		/*
 		for (ArrayList x : rules) 
 			System.out.print(x.get(0) + ": " + x.get(1) + "\n");
 		System.out.println("Start state: " + start);
+		*/
+
+
+		System.out.println(processString(start, rules, ARG));
 
 	}//main
+
+
+	/**
+	* @param list: arraylist to check for input
+	* @param x: string to look for
+	* @return boolean that specifies whether or not the string is in the list	
+	**/
+	public static boolean containsInput(ArrayList <ArrayList<String>> list, String x)
+	{
+		for (ArrayList i : list) 
+		{
+			if (i.get(0).equals(x)) 
+				return true;
+		}//foreach
+		return false;
+	}//containsInput
+
+
+	public static String processString(String input, ArrayList <ArrayList<String>> list, boolean cmdArgs)
+	{
+		char del = ' ';
+		String returnString = "";
+		System.out.println(input);
+		String fragment = input.substring(0, input.indexOf(del)).trim();;
+		System.out.println("fragment = " + fragment);
+
+
+		if (containsInput(list, fragment)) 
+		{
+			for (ArrayList i : list) 
+			{
+				if (i.get(0).equals(fragment)) 
+				{
+					System.out.println(i.get(1));
+					fragment = (String)i.get(1);	
+					System.out.println("fragment now set to: " + fragment);
+					returnString += fragment;
+					returnString += " ";
+					returnString += input.substring(input.indexOf(del));
+					return returnString;
+				}
+			}
+			
+		}//if contains input
+		else
+			return input;
+	}//processString
 }//class
