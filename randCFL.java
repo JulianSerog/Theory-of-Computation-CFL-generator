@@ -170,7 +170,7 @@ public class randCFL
 
 		//loop the number of times specified to print the statement
 		for (int i = 0; i < num ; i++) {
-			System.out.println(processString(start, rules, ARG, ""));
+			System.out.println(processString(start, rules, ARG));
 		}
 		
 
@@ -185,28 +185,39 @@ public class randCFL
 	//TODO: maybe return an arraylist of the indices that the rule occurs in
 	public static boolean containsInput(ArrayList <ArrayList<String>> list, String x)
 	{
-		for (ArrayList i : list) 
+		for (int i = 0; i < list.size() ; i++) 
 		{
-			if (i.get(0).equals(x)) 
+			if (x.contains((String)list.get(i).get(0))) 
+			{
 				return true;
-		}//foreach
+			}//if
+		}//for
 		return false;
 	}//containsInput
 
-
+	
 	//TODO: create a recursive way to go through and change each part
-	public static String processString(String input, ArrayList <ArrayList<String>> list, boolean cmdArgs, String completeOutput)
+	public static String processString(String input, ArrayList <ArrayList<String>> list, boolean cmdArgs)
 	{
 		char del = ' '; //delimeter
 		//String returnString = ""; //string to return as input for next iteration
-		boolean contains = false;
-		System.out.println(input);
+		//System.out.println(input);
 		String fragment = input.substring(0, input.indexOf(del)).trim();;
 		System.out.println("fragment = " + fragment);
 
 		//base case: if no variable is found in the completeInput string the return the input string
-		
-
+		String returnString = "";
+		while(containsInput(list, input))
+		{
+			for (ArrayList i : list) 
+			{
+				System.out.println("returnString before replacement: " + input);
+				input = input.replaceAll((String) i.get(0), (String) i.get(1));
+				System.out.println("returnString after replacement: " + input);
+			}
+		}
+		return returnString;
+		/*
 		for (int i = 0; i < list.size() ; i++) 
 		{
 			if (!completeOutput.contains((String)list.get(i).get(0)) && !input.contains((String)list.get(i).get(0)) && i == list.size()-1) 
@@ -215,26 +226,6 @@ public class randCFL
 				return completeOutput;
 			}//if
 		}//for
-
-
-		for (ArrayList i : list) 
-		{
-			if (i.get(0).equals(fragment)) 
-			{
-				//System.out.println(i.get(1)); //prints out replaced string from the output
-				fragment = (String)i.get(1);	
-				System.out.println("fragment now set to: " + fragment);
-				completeOutput += fragment;
-				//returnString += input.substring(input.indexOf(del));
-				input = input.substring(input.indexOf(del)).trim();
-				System.out.println("input: " + input);
-				System.out.println("completeOutput after change: " + completeOutput);
-				break;
-				//return returnString;
-			}
-		}
-		
-		System.out.println("entering next iteration");
-		return processString(input, list, cmdArgs, completeOutput);
+		*/
 	}//processString
 }//class
