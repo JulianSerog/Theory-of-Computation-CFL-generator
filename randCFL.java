@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class randCFL 
@@ -28,8 +29,6 @@ public class randCFL
 		int num = 1; //defaults to 1
 
 		//System.out.println("cmd args len: " + args.length); //temp
-		
-
 		
 		//if arguments are the correct size
 		// ===================================================================================================== //
@@ -150,7 +149,7 @@ public class randCFL
 				rules.get(counter).add(in); //first element in nested arraylists: input
 				rules.get(counter).add(out); //second element in nested arraylists: output
 				counter++;
-			}
+			}//else
 			//System.out.println(line);
 		}//while
 
@@ -159,7 +158,7 @@ public class randCFL
 		{
 			System.out.println("There is no start state, exiting the program...");
 			System.exit(0);	
-		}
+		}//if
 
 		//TODO: remove this -- it's for testing purposes
 		/*
@@ -169,11 +168,8 @@ public class randCFL
 		*/
 
 		//loop the number of times specified to print the statement
-		for (int i = 0; i < num ; i++) {
+		for (int i = 0; i < num ; i++) 
 			System.out.println(processString(start, rules, ARG));
-		}
-		
-
 	}//main
 
 
@@ -199,33 +195,46 @@ public class randCFL
 	//TODO: create a recursive way to go through and change each part
 	public static String processString(String input, ArrayList <ArrayList<String>> list, boolean cmdArgs)
 	{
-		char del = ' '; //delimeter
-		//String returnString = ""; //string to return as input for next iteration
-		//System.out.println(input);
-		String fragment = input.substring(0, input.indexOf(del)).trim();;
-		System.out.println("fragment = " + fragment);
-
 		//base case: if no variable is found in the completeInput string the return the input string
-		String returnString = "";
-		while(containsInput(list, input))
+		//TODO: do something when cmdArgs is true and false
+
+		if (cmdArgs == true) 
 		{
-			for (ArrayList i : list) 
+			while(containsInput(list, input))
 			{
-				System.out.println("returnString before replacement: " + input);
-				input = input.replaceAll((String) i.get(0), (String) i.get(1));
-				System.out.println("returnString after replacement: " + input);
-			}
-		}
-		return returnString;
-		/*
-		for (int i = 0; i < list.size() ; i++) 
+				int rand = 0 + (int)(Math.random() * ((list.size()-1 - 0) + 1));
+				if (input.contains(list.get(rand).get(0))) 
+				{
+					//System.out.println("returnString before replacement: " + input);
+					input = input.replaceAll((String) list.get(rand).get(0), (String) list.get(rand).get(1));
+					//System.out.println("returnString after replacement: " + input);
+				}
+				/*
+				for (ArrayList i : list) 
+				{
+					//TODO: write a random search for inputs that replaces with the corresponding outputs, program will eventually halt
+					//TODO: since this is the cmdArgs true section do printline statements of each transition
+					String oldInput = input;
+					input = input.replaceAll((String) i.get(0), (String) i.get(1));
+					if (!input.equals(oldInput))
+						System.out.println("returnString after replacement: " + input);
+				}//foreach
+				*/
+			}//while
+		}//ifcmdArgs == true
+		else
 		{
-			if (!completeOutput.contains((String)list.get(i).get(0)) && !input.contains((String)list.get(i).get(0)) && i == list.size()-1) 
+			while(containsInput(list, input))
 			{
-				System.out.println("entered base case");
-				return completeOutput;
-			}//if
-		}//for
-		*/
+				for (ArrayList i : list) 
+				{
+					//TODO: write a random search for inputs that replaces with the corresponding outputs, program will eventually halt
+					System.out.println("returnString before replacement: " + input);
+					input = input.replaceAll((String) i.get(0), (String) i.get(1));
+					System.out.println("returnString after replacement: " + input);
+				}//foreach
+			}//while
+		}//else -- if cmdArgs is false
+		return input;
 	}//processString
 }//class
