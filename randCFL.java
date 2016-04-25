@@ -200,39 +200,29 @@ public class randCFL
 
 		if (cmdArgs == true) 
 		{
+			System.out.print("START => " + input + " => ");
 			while(containsInput(list, input))
 			{
 				int rand = 0 + (int)(Math.random() * ((list.size()-1 - 0) + 1));
 				if (input.contains(list.get(rand).get(0))) 
 				{
-					//System.out.println("returnString before replacement: " + input);
 					input = input.replaceAll((String) list.get(rand).get(0), (String) list.get(rand).get(1));
-					//System.out.println("returnString after replacement: " + input);
-				}
-				/*
-				for (ArrayList i : list) 
-				{
-					//TODO: write a random search for inputs that replaces with the corresponding outputs, program will eventually halt
-					//TODO: since this is the cmdArgs true section do printline statements of each transition
-					String oldInput = input;
-					input = input.replaceAll((String) i.get(0), (String) i.get(1));
-					if (!input.equals(oldInput))
-						System.out.println("returnString after replacement: " + input);
-				}//foreach
-				*/
+					System.out.print(input);
+					if (containsInput(list,input)) 
+						System.out.print(" => ");
+				}//if
 			}//while
+			System.out.println();
 		}//ifcmdArgs == true
 		else
 		{
 			while(containsInput(list, input))
 			{
-				for (ArrayList i : list) 
+				int rand = 0 + (int)(Math.random() * ((list.size()-1 - 0) + 1));
+				if (input.contains(list.get(rand).get(0))) 
 				{
-					//TODO: write a random search for inputs that replaces with the corresponding outputs, program will eventually halt
-					System.out.println("returnString before replacement: " + input);
-					input = input.replaceAll((String) i.get(0), (String) i.get(1));
-					System.out.println("returnString after replacement: " + input);
-				}//foreach
+					input = input.replaceAll((String) list.get(rand).get(0), (String) list.get(rand).get(1));
+				}//if
 			}//while
 		}//else -- if cmdArgs is false
 		return input;
