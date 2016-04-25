@@ -203,14 +203,25 @@ public class randCFL
 			System.out.print("START => " + input + " => ");
 			while(containsInput(list, input))
 			{
-				int rand = 0 + (int)(Math.random() * ((list.size()-1 - 0) + 1));
-				if (input.contains(list.get(rand).get(0))) 
+				String tempBuilder = ""; //temp string
+				int rand = 0 + (int)(Math.random() * ((list.size()-1 - 0) + 1)); //random integer
+				for (int i = 0;i < input.length() ; i++) 
 				{
-					input = input.replaceAll((String) list.get(rand).get(0), (String) list.get(rand).get(1));
-					System.out.print(input);
-					if (containsInput(list,input)) 
-						System.out.print(" => ");
-				}//if
+					if (containsInput(list, Character.toString(input.charAt(i)) )) 
+					{
+						tempBuilder += input.substring(0, i);
+						if (Character.toString(input.charAt(i)).contains(list.get(rand).get(0))) 
+						{
+							tempBuilder += list.get(rand).get(1);
+							tempBuilder += input.substring(i+1);
+							input = tempBuilder;
+							if (!containsInput(list,input)) 
+								return input; //IF NO VARIABLES EXIST RETURN THE INPUT
+							System.out.print(input + " => "); //print the arrow and the next iteration
+						}//if
+						break; //break from inner most loop
+					}//if
+				}//for loop that iterates through input string
 			}//while
 			System.out.println();
 		}//ifcmdArgs == true
@@ -218,11 +229,24 @@ public class randCFL
 		{
 			while(containsInput(list, input))
 			{
-				int rand = 0 + (int)(Math.random() * ((list.size()-1 - 0) + 1));
-				if (input.contains(list.get(rand).get(0))) 
+				String tempBuilder = ""; //temp string
+				int rand = 0 + (int)(Math.random() * ((list.size()-1 - 0) + 1)); //random integer
+				for (int i = 0;i < input.length() ; i++) 
 				{
-					input = input.replaceAll((String) list.get(rand).get(0), (String) list.get(rand).get(1));
-				}//if
+					if (containsInput(list, Character.toString(input.charAt(i)) )) 
+					{
+						tempBuilder += input.substring(0, i);
+						if (Character.toString(input.charAt(i)).contains(list.get(rand).get(0))) 
+						{
+							tempBuilder += list.get(rand).get(1);
+							tempBuilder += input.substring(i+1);
+							input = tempBuilder;
+							if (!containsInput(list,input)) 
+								return input; //IF NO VARIABLES EXIST RETURN THE INPUT
+						}//if
+						break; //break from inner most loop
+					}//if
+				}//for loop that iterates through input string
 			}//while
 		}//else -- if cmdArgs is false
 		return input;
