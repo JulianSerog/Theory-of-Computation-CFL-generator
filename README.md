@@ -1,7 +1,6 @@
 README
 
-Created by Esa Serog
-810669574
+Created by Esa Julian Serog
 
 Compile with "javac randCFL.java"
 Run with "java randCFL [input_file_here]" or "java randCFL -t [input_file_here]"
